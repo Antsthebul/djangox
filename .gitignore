@@ -1,0 +1,11 @@
+# virtual envs 
+venv/
+
+# Main Project
+frontend/
+
+# db
+*.sqlite3
+
+# Caches 
+__pycache__/

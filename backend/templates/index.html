@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+  <head>
+    <title>xterm.js demo</title>
+    <link rel="shortcut icon" type="image/png" href="/logo.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.css" integrity="sha512-iLYuqv+v/P4u9erpk+KM83Ioe/l7SEmr7wB6g+Kg1qmEit8EShDKnKtLHlv2QXUp7GGJhmqDI+1PhJYLTsfb8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.1.1/es6-promise.auto.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.min.js"></script>
+  </head>
+  <body>
+    <h1 style="color: #2D2E2C">xterm.js: A terminal for the <em style="color: #5DA5D5">Me</em></h1>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.js" integrity="sha512-2PRgAav8Os8vLcOAh1gSaDoNLe1fAyq8/G3QSdyjFFD+OqNjLeHE/8q4+S4MEZgPsuo+itHopj+hJvqS8XUQ8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+      const terminalSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/terminal/'
+      )
+
+      terminalSocket.onmessage = function(e){
+        const { message } = JSON.parse(e.data)
+        term.write(message) // from channel, from .receive()
+      }
+      terminalSocket.onerror = e=> console.log(e)
+      let term = new Terminal({
+        cursorBlink:true
+      })
+      term.open(document.getElementById('terminal-container'))
+      term.on('data', data => {
+        let message = data
+        terminalSocket.send(
+        JSON.stringify({'message':message}))})
+    </script>
+  </body>
+</html>
