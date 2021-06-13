@@ -1,15 +1,17 @@
 # Django Serving Linux terminal with X-Term
 
-**This has not been tested for windows**
+**Not been tested for windows**
 
-This code uses a simple HTML file to display the terminal
+This code displays a linux terminal in the web browser by combining the Xterm.js library and Websockets using Django channels.
 
 **Disclaimer:**
-This code runs projects your linux terminal in your web browser. Be mindful of the fact your communicating
+This projects your linux terminal in your web browser in its current process. Be mindful of the fact your communicating
 with your Linux kernel, as the currently logged in user!. Running commands you aren't sure can be extremely dangerous..Otherwise, Happy hacking!
 
 ## Setup
-1. Perform the normal installation process for Django. 
+After cloning this repo, the code for using Xterm is in index.html. So you may use your own or the one provided.
+
+1. Create a venv and install Django. 
 2. `pip install channels`
 3. `python manage.py runserver`
 
@@ -19,18 +21,22 @@ You should see the word *connected* in green
 
 ## Exit
 1. In the web browser type `exit`
-2. Press any key to complete disconnect*
+2. Press any key to completely disconnect*
 
 You should see the word *disconnected*
 
-**Issues:**
+## **Issues**:
 1. Becuase the current syntax causes the calling terminal to be projected to the browser. Terminal MUST be end
  - before CTRL-C to end Django shell
 
 2. *When exiting, to fully disconnect another keystroke needs to be inputted in the terminal
+---
 
 **Further development**
 1. Enable user to program further options.
      - window resize
      - cursor type
      - cursor style
+     - color
+
+2. Enable pre-configure security options
