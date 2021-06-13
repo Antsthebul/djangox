@@ -1,7 +1,7 @@
 # virtual envs 
 venv/
 
-# Main Project
+# Main XTerm files
 frontend/
 
 # db

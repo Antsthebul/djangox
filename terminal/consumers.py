@@ -11,6 +11,7 @@ FD = None
 
 
 class TerminalConsumer(WebsocketConsumer):
+    _thread = None
 
     def connect(self):
         global CHILD_PID
@@ -21,17 +22,18 @@ class TerminalConsumer(WebsocketConsumer):
             return
         # (CHILD_PID, FD) = pty.fork()
         
-        threading.Thread(target=self.spawn_shell, daemon=True).start()
-        print('Child: {} FD:{}'.format(CHILD_PID, FD))
+        self._thread = threading.Thread(target=self.spawn_shell, daemon=True)
+        self._thread.start()
         if CHILD_PID == 0:
             # child process
             return
     
     def spawn_shell(self):
         pid = pty.spawn(os.environ['SHELL'], self.read_forward_pty_output)
-        print('Pid', pid)
+        return True
 
     def disconnect(self, close_code):
+        print('disconnecting')
         pass 
     
     def receive(self, text_data):
