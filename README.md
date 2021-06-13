@@ -1,8 +1,36 @@
-# Django Coupled with X-Term
+# Django Serving Linux terminal with X-Term
 
+**This has not been tested for windows**
 
-pip install channels
+This code uses a simple HTML file to display the terminal
 
-Feel free to use index HTML 
+**Disclaimer:**
+This code runs projects your linux terminal in your web browser. Be mindful of the fact your communicating
+with your Linux kernel, as the currently logged in user!. Running commands you aren't sure can be extremely dangerous..Otherwise, Happy hacking!
 
-Code is
+## Setup
+1. Perform the normal installation process for Django. 
+2. `pip install channels`
+3. `python manage.py runserver`
+
+Head over to localhost:8000/terminal/
+
+You should see the word *connected* in green
+
+## Exit
+1. In the web browser type `exit`
+2. Press any key to complete disconnect*
+
+You should see the word *disconnected*
+
+**Issues:**
+1. Becuase the current syntax causes the calling terminal to be projected to the browser. Terminal MUST be end
+ - before CTRL-C to end Django shell
+
+2. *When exiting, to fully disconnect another keystroke needs to be inputted in the terminal
+
+**Further development**
+1. Enable user to program further options.
+     - window resize
+     - cursor type
+     - cursor style

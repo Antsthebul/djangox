@@ -11,11 +11,13 @@
       font-weight: bold;
       font-size:1.2em;
     }
+    
     </style>
   </head>
   <body>
     <h1 style="text-align:center">A Linux Xterm Terminal spawn by Django</h1>
     <div id="status"></div>
+    <button disabled=true>Connect</buton>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.js" integrity="sha512-2PRgAav8Os8vLcOAh1gSaDoNLe1fAyq8/G3QSdyjFFD+OqNjLeHE/8q4+S4MEZgPsuo+itHopj+hJvqS8XUQ8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
       const terminalSocket = new WebSocket(
@@ -23,25 +25,32 @@
         + window.location.host
         + '/ws/terminal/'
       )
+      let status = document.getElementById('status'),
+        button = document.querySelector('button')
+
+      button.addEventListener('click', ()=> location.reload())
+
 
       terminalSocket.onmessage = function(e){
         const { message } = JSON.parse(e.data)
         term.write(message) // from channel, from .receive()
       }
       terminalSocket.onerror = e=> console.log(e)
+      
+      // Terminal Setup
       let term = new Terminal({
         cursorBlink:true
       })
       terminalSocket.onopen = function (e){
-        let status = document.getElementById('status')
         status.innerHTML = 'Connected'
         status.style.color = "green"
+        button.disabled=true
       }
 
       terminalSocket.onclose = function (e){
-        let status = document.getElementById('status')
         status.innerHTML = 'Disconnected'
         status.style.color = "red"
+        button.disabled=false
       }
 
       term.open(document.getElementById('terminal-container'))
